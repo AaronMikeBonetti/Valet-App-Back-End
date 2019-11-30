@@ -21,7 +21,7 @@ app.use(logger)
 app.use(express.static(path.join(__dirname, 'public')))
 
 //Using express Router allows us to specify the parent route and import the different routes
-app.use('/api/members', require('./Routes/api/members'))
+app.use('/api/users', require('./Routes/api/users'))
 
 app.listen(PORT,console.log(`server is live on ${PORT}...`))
 
