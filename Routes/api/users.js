@@ -30,11 +30,15 @@ router.post('/',(req,res)=>{
     const newUser = {
         id: uuid.v4(),
         name: req.body.name,
-        password: req.body.password
+        password: req.body.password,
+        location: req.body.location,
+        hotel: req.body.hotel,
+        admin: req.body.admin,
+
     }
 
-    if(!newUser.name || !newUser.password){
-       return res.status(400).json({msg: "please include a name and password"})
+    if(!newUser.name || !newUser.password || !newUser.location || !newUser.hotel || !newUser.admin){
+       return res.status(400).json({msg: 'please fill out all information'})
     }
     users.push(newUser)
     res.status(200).json(users)
