@@ -2,14 +2,19 @@
 const express = require('express')
 const router = express.Router()
 const users = require('../../public/UsersList')
-const uuid = require('uuid')
+
+function getRandomIntInclusive(min, max) {
+    min = Math.ceil(min);
+    max = Math.floor(max);
+    return Math.floor(Math.random() * (max - min + 1)) + min;
+  }
+
 
 router.get('/', (req,res)=>{
     res.json(users)
 })
 
 router.get('/:id', (req,res)=>{
-    
     let found = users.some(user=>{
        return user.id === parseInt(req.params.id)
     })
@@ -24,11 +29,11 @@ router.get('/:id', (req,res)=>{
     }    
 })
 
-//add a user 
+//Add a user 
 
 router.post('/',(req,res)=>{
     const newUser = {
-        id: uuid.v4(),
+        id: getRandomIntInclusive(0,99999),
         name: req.body.name,
         password: req.body.password,
         location: req.body.location,
@@ -44,7 +49,7 @@ router.post('/',(req,res)=>{
     res.status(200).json(users)
 })
 
-//update user 
+//Update user 
 
 router.put('/:id', (req,res)=>{
    
@@ -98,9 +103,13 @@ router.delete('/:id',(req,res)=>{
         res.status(200).send(users)
     }
     else{
-        res.status(400).json({msg:'User does not exist'})
+        res.status(400).json({msg: `No user found with id = ${req.params.id}`})
     }
     
+})
+router.delete('/',(req,res)=>{
+    users.length = 0
+        res.status(200).send(users)   
 })
 
 
